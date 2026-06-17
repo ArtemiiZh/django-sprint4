@@ -71,7 +71,9 @@ def category_posts(request, category_slug):
     ).order_by('-pub_date')
     page_obj = paginate_queryset(request, posts_list)
     return render(
-        request, 'blog/category.html', {'category': category, 'page_obj': page_obj}
+        request,
+        'blog/category.html',
+        {'category': category, 'page_obj': page_obj}
     )
 
 
@@ -83,14 +85,14 @@ def profile(request, username):
     ).annotate(
         comment_count=Count('comments')
     ).filter(author=profile_user)
-    
+
     if request.user != profile_user:
         posts_list = posts_list.filter(
             is_published=True,
             category__is_published=True,
             pub_date__lte=timezone.now()
         )
-        
+
     posts_list = posts_list.order_by('-pub_date')
     page_obj = paginate_queryset(request, posts_list)
     return render(
