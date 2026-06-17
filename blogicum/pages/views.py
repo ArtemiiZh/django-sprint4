@@ -4,11 +4,13 @@ from django.views.generic import TemplateView
 
 class AboutView(TemplateView):
     """Статичная страница 'О проекте' на основе CBV."""
+
     template_name = 'pages/about.html'
 
 
 class RulesView(TemplateView):
     """Статичная страница 'Правила' на основе CBV."""
+
     template_name = 'pages/rules.html'
 
 

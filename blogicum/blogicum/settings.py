@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import os
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-wl6b16nau_625#ed6aiw=!bre5_o0gltu0k7w_!#(^1_1au^qw'
@@ -103,9 +105,7 @@ LOGOUT_REDIRECT_URL = 'blog:index'
 # Указываем кастомный путь к странице авторизации для декоратора @login_required
 LOGIN_URL = 'login'
 
-import os
+TEMPLATES_DIR = BASE_DIR / 'templates'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-TEMPLATES_DIR = BASE_DIR / 'templates'

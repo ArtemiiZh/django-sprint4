@@ -1,11 +1,14 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Post, Comment
+
+from .models import Comment, Post
 
 User = get_user_model()
 
 
 class ProfileForm(forms.ModelForm):
+    """Форма для редактирования профиля пользователя."""
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email')
@@ -13,6 +16,7 @@ class ProfileForm(forms.ModelForm):
 
 class PostForm(forms.ModelForm):
     """Форма для создания и редактирования публикаций с картинкой."""
+
     class Meta:
         model = Post
         exclude = ('author',)
@@ -26,6 +30,7 @@ class PostForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     """Форма для добавления комментариев."""
+
     class Meta:
         model = Comment
         fields = ('text',)

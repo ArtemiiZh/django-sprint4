@@ -6,6 +6,7 @@ User = get_user_model()
 
 class PublishedModel(models.Model):
     """Абстрактная модель. Добавляет флаг публикации и дату создания."""
+
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -22,6 +23,7 @@ class PublishedModel(models.Model):
 
 class Category(PublishedModel):
     """Модель категории."""
+
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
@@ -41,6 +43,7 @@ class Category(PublishedModel):
 
 class Location(PublishedModel):
     """Модель местоположения."""
+
     name = models.CharField(max_length=256, verbose_name='Название места')
 
     class Meta:
@@ -53,6 +56,7 @@ class Location(PublishedModel):
 
 class Post(PublishedModel):
     """Модель публикации."""
+
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
@@ -101,6 +105,7 @@ class Post(PublishedModel):
 # НОВАЯ МОДЕЛЬ ПО ТЗ: Комментарии
 class Comment(models.Model):
     """Модель комментария к публикации."""
+
     text = models.TextField('Текст комментария')
     post = models.ForeignKey(
         Post,
