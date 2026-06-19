@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
+# Импортируем нашу глобальную функцию пагинации
+from blogicum.utils import paginate_queryset
 from .forms import CommentForm, PostForm, ProfileForm
 from .models import Category, Comment, Post
 
@@ -23,17 +24,10 @@ def get_published_posts():
     ).annotate(comment_count=Count('comments'))
 
 
-def paginate_queryset(request, queryset):
-    """Вспомогательная функция для пагинации постов."""
-    paginator = Paginator(queryset, POSTS_LIMIT)
-    page_number = request.GET.get('page')
-    return paginator.get_page(page_number)
-
-
 def index(request):
     """Главная страница."""
     posts_list = get_published_posts().order_by('-pub_date')
-    page_obj = paginate_queryset(request, posts_list)
+    page_obj = paginate_queryset(request, posts_list, POSTS_LIMIT)
     return render(request, 'blog/index.html', {'page_obj': page_obj})
 
 
@@ -69,7 +63,7 @@ def category_posts(request, category_slug):
     posts_list = get_published_posts().filter(
         category=category
     ).order_by('-pub_date')
-    page_obj = paginate_queryset(request, posts_list)
+    page_obj = paginate_queryset(request, posts_list, POSTS_LIMIT)
     return render(
         request,
         'blog/category.html',
@@ -94,7 +88,7 @@ def profile(request, username):
         )
 
     posts_list = posts_list.order_by('-pub_date')
-    page_obj = paginate_queryset(request, posts_list)
+    page_obj = paginate_queryset(request, posts_list, POSTS_LIMIT)
     return render(
         request,
         'blog/profile.html',

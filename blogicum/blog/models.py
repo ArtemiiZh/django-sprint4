@@ -3,6 +3,9 @@ from django.db import models
 
 User = get_user_model()
 
+# КОНСТАНТА ДЛЯ МАКСИМАЛЬНОЙ ДЛИНЫ СТРОК
+MAX_CHAR_LENGTH = 256
+
 
 class PublishedModel(models.Model):
     """Абстрактная модель. Добавляет флаг публикации и дату создания."""
@@ -24,7 +27,10 @@ class PublishedModel(models.Model):
 class Category(PublishedModel):
     """Модель категории."""
 
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+    title = models.CharField(
+        max_length=MAX_CHAR_LENGTH,
+        verbose_name='Заголовок'
+    )
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
         unique=True,
@@ -44,7 +50,10 @@ class Category(PublishedModel):
 class Location(PublishedModel):
     """Модель местоположения."""
 
-    name = models.CharField(max_length=256, verbose_name='Название места')
+    name = models.CharField(
+        max_length=MAX_CHAR_LENGTH,
+        verbose_name='Название места'
+    )
 
     class Meta:
         verbose_name = 'местоположение'
@@ -57,7 +66,10 @@ class Location(PublishedModel):
 class Post(PublishedModel):
     """Модель публикации."""
 
-    title = models.CharField(max_length=256, verbose_name='Заголовок')
+    title = models.CharField(
+        max_length=MAX_CHAR_LENGTH,
+        verbose_name='Заголовок'
+    )
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
@@ -85,8 +97,6 @@ class Post(PublishedModel):
         related_name='posts',
         verbose_name='Категория'
     )
-
-    # НОВОЕ ПОЛЕ ПО ТЗ: Картинка к посту
     image = models.ImageField(
         'Фото',
         upload_to='posts_images/',
@@ -102,7 +112,6 @@ class Post(PublishedModel):
         return self.title
 
 
-# НОВАЯ МОДЕЛЬ ПО ТЗ: Комментарии
 class Comment(models.Model):
     """Модель комментария к публикации."""
 
@@ -127,7 +136,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-        ordering = ('created_at',)  # Сортировка по ТЗ: от старых к новым
+        ordering = ('created_at',)
 
     def __str__(self):
         return f'Комментарий от {self.author} к посту {self.post}'
